@@ -1,0 +1,26 @@
+{
+  "name": "react",
+  "version": "1.0.0",
+  "description": "This is a React Learning Journey.",
+  "homepage": "https://github.com/durgeshhhhhhh/learn-react-by-doing#readme",
+  "bugs": {
+    "url": "https://github.com/durgeshhhhhhh/learn-react-by-doing/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/durgeshhhhhhh/learn-react-by-doing.git"
+  },
+  "license": "ISC",
+  "author": "Durgesh Shekhawat",
+  "type": "commonjs",
+  "scripts": {
+    "test": "jest"
+  },
+  "devDependencies": {
+    "parcel": "^2.15.4"
+  },
+  "dependencies": {
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1"
+  }
+}
