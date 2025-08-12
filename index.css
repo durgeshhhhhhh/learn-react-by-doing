@@ -1,3 +1,377 @@
-#heading {
-  color: red;
+/* Reset and base styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'ProximaNova', arial, 'Helvetica Neue', sans-serif;
+  line-height: 1.6;
+}
+
+/* Header Styles - Swiggy inspired */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  height: 80px;
+  background-color: #ffffff;
+  box-shadow: 0 15px 40px -20px rgba(40, 44, 63, 0.15);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+/* Logo container */
+.logo-container {
+  display: flex;
+  align-items: center;
+}
+
+.logo-container img {
+  height: 50px;
+  width: auto;
+  object-fit: contain;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.logo-container img:hover {
+  transform: scale(1.05);
+}
+
+/* Navigation styles */
+.nav-items ul {
+  display: flex;
+  list-style: none;
+  gap: 40px;
+  align-items: center;
+}
+
+.nav-items li {
+  color: #3d4152;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 8px 16px;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.nav-items li:hover {
+  color: #fc8019;
+  background-color: #f8f8f8;
+}
+
+/* Add a subtle underline effect on hover */
+.nav-items li::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background-color: #fc8019;
+  transition: all 0.3s ease;
+  transform: translateX(-50%);
+}
+
+.nav-items li:hover::after {
+  width: 80%;
+}
+
+/* Special styling for Cart item */
+.nav-items li:last-child {
+  background-color: #fc8019;
+  color: white;
+  border-radius: 6px;
+  padding: 10px 20px;
+}
+
+.nav-items li:last-child:hover {
+  background-color: #e73c00;
+  color: white;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(252, 128, 25, 0.3);
+}
+
+/* Remove the underline effect for cart button */
+.nav-items li:last-child::after {
+  display: none;
+}
+
+/* Body Section */
+.body {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  background-color: #f8f8f8;
+  min-height: calc(100vh - 80px);
+}
+
+/* Search Section */
+.search {
+  margin-bottom: 30px;
+  padding: 40px 0;
+  text-align: center;
+  font-size: 18px;
+  color: #686b78;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Restaurant Container */
+.res-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 24px;
+  padding: 32px 20px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  margin-top: 20px;
+  min-height: 400px;
+  justify-items: center;
+  position: relative;
+}
+
+/* Add a subtle border and background pattern */
+.res-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #fc8019 0%, #ff6b35 50%, #fc8019 100%);
+  border-radius: 12px 12px 0 0;
+}
+
+/* Container title/header if needed */
+.res-container-header {
+  grid-column: 1 / -1;
+  text-align: center;
+  margin-bottom: 20px;
+  color: #282c3f;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+/* Loading state styling */
+.res-container.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 300px;
+}
+
+/* Empty state styling */
+.res-container:empty::after {
+  content: '🍽️ No restaurants found';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #93959f;
+  font-size: 18px;
+  text-align: center;
+}
+
+/* Restaurant Card - Exact Swiggy Style */
+.res-card {
+  width: 280px;
+  background-color: #ffffff;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  position: relative;
+  border: none;
+}
+
+.res-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+}
+
+/* Restaurant Card Image Container */
+.res-card__image-container {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Restaurant Card Image */
+.res-card__image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.res-card:hover .res-card__image {
+  transform: scale(1.05);
+}
+
+/* Promotional Banner Overlay */
+.res-card__promo {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.8) 100%);
+  color: white;
+  padding: 12px 16px;
+  font-size: 18px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Restaurant Card Content Container */
+.res-card__content {
+  padding: 16px;
+}
+
+/* Restaurant Name/Title */
+.res-card__title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #02060c;
+  margin: 0 0 8px 0;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Rating and Time Container */
+.res-card__rating-time {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+/* Rating Badge */
+.res-card__rating {
+  background-color: #1d8f3f;
+  color: white;
+  padding: 6px 8px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  min-width: 48px;
+  justify-content: center;
+}
+
+.res-card__rating::before {
+  content: "★";
+  font-size: 12px;
+}
+
+/* Delivery Time */
+.res-card__time {
+  color: #02060c;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.res-card__time::before {
+  content: " • ";
+  margin: 0 4px;
+  color: #02060c;
+}
+
+/* Cuisines List */
+.res-card__cuisines {
+  color: #686b78;
+  font-size: 14px;
+  margin: 0 0 4px 0;
+  line-height: 1.4;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  line-clamp: 1;
+  -webkit-box-orient: vertical;
+  text-overflow: ellipsis;
+  font-weight: 400;
+}
+
+/* Area Name */
+.res-card__area {
+  color: #686b78;
+  font-size: 14px;
+  margin: 0;
+  font-weight: 400;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .header {
+    padding: 0 15px;
+    height: 70px;
+  }
+  
+  .logo-container img {
+    height: 40px;
+  }
+  
+  .nav-items ul {
+    gap: 20px;
+  }
+  
+  .nav-items li {
+    font-size: 14px;
+    padding: 6px 12px;
+  }
+
+  .body {
+    padding: 15px;
+  }
+
+  .res-container {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 15px;
+  }
+
+  .res-card {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .nav-items ul {
+    gap: 10px;
+  }
+  
+  .nav-items li {
+    font-size: 12px;
+    padding: 4px 8px;
+  }
+  
+  .nav-items li:last-child {
+    padding: 8px 15px;
+  }
+
+  .body {
+    padding: 10px;
+  }
+
+  .res-container {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .search {
+    padding: 20px 0;
+    font-size: 16px;
+  }
 }
