@@ -18,3 +18,25 @@
 - HTTps
 - Tree Shaking - remove unused codes 
 - Different dev and prod bundles
+
+
+# Food Ordering App
+
+/*
+ * Header
+ *  - Logo
+ *  - Nav Item
+ * Body
+ *  - Search
+ *  - Restaurant Container
+ *    - Restaurant Card
+ *     - image
+ *     - restaurant name
+ *     - star Rating
+ *     - Details
+ * Footer
+ *  -Copyright
+ *  - Links
+ *  - Address
+ *  - Contacts
+ */
