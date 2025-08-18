@@ -1,3 +1,17 @@
+/* CSS Variables for consistent colors */
+:root {
+  --primary-color: #fc8019;
+  --primary-dark: #e73c00;
+  --text-dark: #02060c;
+  --text-light: #686b78;
+  --text-medium: #3d4152;
+  --border-light: #e9e9eb;
+  --bg-light: #f8f8f8;
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.15);
+}
+
 /* Reset and base styles */
 * {
   margin: 0;
@@ -51,7 +65,7 @@ body {
 }
 
 .nav-items li {
-  color: #3d4152;
+  color: var(--text-medium);
   font-size: 16px;
   font-weight: 600;
   cursor: pointer;
@@ -62,8 +76,8 @@ body {
 }
 
 .nav-items li:hover {
-  color: #fc8019;
-  background-color: #f8f8f8;
+  color: var(--primary-color);
+  background-color: var(--bg-light);
 }
 
 /* Add a subtle underline effect on hover */
@@ -74,7 +88,7 @@ body {
   left: 50%;
   width: 0;
   height: 2px;
-  background-color: #fc8019;
+  background-color: var(--primary-color);
   transition: all 0.3s ease;
   transform: translateX(-50%);
 }
@@ -85,14 +99,14 @@ body {
 
 /* Special styling for Cart item */
 .nav-items li:last-child {
-  background-color: #fc8019;
+  background-color: var(--primary-color);
   color: white;
   border-radius: 6px;
   padding: 10px 20px;
 }
 
 .nav-items li:last-child:hover {
-  background-color: #e73c00;
+  background-color: var(--primary-dark);
   color: white;
   transform: translateY(-1px);
   box-shadow: 0 4px 8px rgba(252, 128, 25, 0.3);
@@ -103,12 +117,18 @@ body {
   display: none;
 }
 
+/* Accessibility focus styles */
+.nav-items li:focus-visible {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
+}
+
 /* Body Section */
 .body {
   padding: 20px;
   max-width: 1200px;
   margin: 0 auto;
-  background-color: #f8f8f8;
+  background-color: var(--bg-light);
   min-height: calc(100vh - 80px);
 }
 
@@ -118,10 +138,10 @@ body {
   padding: 40px 0;
   text-align: center;
   font-size: 18px;
-  color: #686b78;
+  color: var(--text-light);
   background-color: white;
   border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow-sm);
 }
 
 /* Restaurant Container */
@@ -132,7 +152,7 @@ body {
   padding: 32px 20px;
   background-color: #ffffff;
   border-radius: 12px;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  box-shadow: var(--shadow-sm);
   margin-top: 20px;
   min-height: 400px;
   justify-items: center;
@@ -147,7 +167,7 @@ body {
   left: 0;
   right: 0;
   height: 3px;
-  background: linear-gradient(90deg, #fc8019 0%, #ff6b35 50%, #fc8019 100%);
+  background: linear-gradient(90deg, var(--primary-color) 0%, #ff6b35 50%, var(--primary-color) 100%);
   border-radius: 12px 12px 0 0;
 }
 
@@ -156,7 +176,7 @@ body {
   grid-column: 1 / -1;
   text-align: center;
   margin-bottom: 20px;
-  color: #282c3f;
+  color: var(--text-medium);
   font-size: 24px;
   font-weight: 700;
 }
@@ -187,7 +207,7 @@ body {
   background-color: #ffffff;
   border-radius: 20px;
   overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow-md);
   transition: all 0.3s ease;
   cursor: pointer;
   position: relative;
@@ -195,8 +215,9 @@ body {
 }
 
 .res-card:hover {
+  will-change: transform; /* Performance optimization */
   transform: translateY(-6px);
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+  box-shadow: var(--shadow-lg);
 }
 
 /* Restaurant Card Image Container */
@@ -211,6 +232,7 @@ body {
   height: 200px;
   object-fit: cover;
   transition: transform 0.3s ease;
+  will-change: transform; /* Performance optimization */
 }
 
 .res-card:hover .res-card__image {
@@ -241,7 +263,7 @@ body {
 .res-card__title {
   font-size: 20px;
   font-weight: 600;
-  color: #02060c;
+  color: var(--text-dark);
   margin: 0 0 8px 0;
   line-height: 1.2;
   white-space: nowrap;
@@ -279,7 +301,7 @@ body {
 
 /* Delivery Time */
 .res-card__time {
-  color: #02060c;
+  color: var(--text-dark);
   font-size: 16px;
   font-weight: 600;
 }
@@ -287,12 +309,12 @@ body {
 .res-card__time::before {
   content: " • ";
   margin: 0 4px;
-  color: #02060c;
+  color: var(--text-dark);
 }
 
 /* Cuisines List */
 .res-card__cuisines {
-  color: #686b78;
+  color: var(--text-light);
   font-size: 14px;
   margin: 0 0 4px 0;
   line-height: 1.4;
@@ -307,13 +329,71 @@ body {
 
 /* Area Name */
 .res-card__area {
-  color: #686b78;
+  color: var(--text-light);
   font-size: 14px;
   margin: 0;
   font-weight: 400;
 }
 
-/* Responsive design */
+/* Filter Section - Swiggy Inspired */
+.filter {
+  display: flex;
+  align-items: center;
+  margin: 20px 0;
+  padding: 0 20px;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.filter-btn {
+  padding: 8px 16px;
+  background-color: #fff;
+  color: var(--text-medium);
+  border: 1px solid var(--border-light);
+  border-radius: 18px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.3s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+/* Add a filter icon before the text */
+.filter-btn::before {
+  content: "★"; /* Star icon for top rated */
+  font-size: 14px;
+  color: var(--primary-color);
+}
+
+/* Hover state */
+.filter-btn:hover {
+  box-shadow: var(--shadow-sm);
+  transform: translateY(-1px);
+}
+
+/* Focus state for accessibility */
+.filter-btn:focus-visible {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
+}
+
+/* Active state (when clicked/filtering is active) */
+.filter-btn.active {
+  background-color: #fceede;
+  color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+/* When filter is applied */
+.filter-btn.active::before {
+  color: var(--primary-color);
+}
+
+/* Responsive styles */
 @media (max-width: 768px) {
   .header {
     padding: 0 15px;
@@ -344,6 +424,15 @@ body {
 
   .res-card {
     max-width: 100%;
+  }
+
+  .filter {
+    padding: 0 16px;
+  }
+  
+  .filter-btn {
+    font-size: 13px;
+    padding: 6px 12px;
   }
 }
 
