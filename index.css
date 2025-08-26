@@ -522,6 +522,22 @@ body {
   border-radius: 4px;
 }
 
+/* Shimmer container for multiple cards */
+.shimmer-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 24px;
+  padding: 32px 20px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: var(--shadow-sm);
+  margin-top: 20px;
+  min-height: 400px;
+  justify-items: center;
+  position: relative;
+}
+
+/* Enhance shimmer animation */
 @keyframes shimmer {
   0% {
     background-position: -200% 0;
