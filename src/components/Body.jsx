@@ -6,6 +6,7 @@ import Shimmer from "./Shimmer";
 const Body = () => {
   const [listOfRestaurants, setListOfRestaurants] = useState([]);
   const [searchText, setSearchText] = useState("");
+  const [filteredRestaurant, setfilteredRestaurants] = useState([]);
 
   useEffect(() => {
     fetchData();
@@ -21,6 +22,9 @@ const Body = () => {
       setListOfRestaurants(
         json.data.cards[4]?.card?.card?.gridElements?.infoWithStyle?.restaurants
       );
+      setfilteredRestaurants(
+        json.data.cards[4]?.card?.card?.gridElements?.infoWithStyle?.restaurants
+      );
     } catch (error) {
       console.log("Error fetching data:", error);
     }
@@ -30,7 +34,7 @@ const Body = () => {
     const filteredList = listOfRestaurants.filter((res) => {
       return res.info.name.toLowerCase().includes(searchText.toLowerCase());
     });
-    setListOfRestaurants(filteredList);
+    setfilteredRestaurants(filteredList);
   };
 
   return listOfRestaurants.length === 0 ? (
@@ -47,7 +51,7 @@ const Body = () => {
         <button onClick={handleSearch}>Search</button>
       </div>
       <div className="res-container">
-        {listOfRestaurants.map((restaurant) => (
+        {filteredRestaurant.map((restaurant) => (
           <RestaurantCard key={restaurant.info.id} resData={restaurant} />
         ))}
       </div>
