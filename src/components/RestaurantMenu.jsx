@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useParams } from "react-router-dom";
 import Shimmer from "./Shimmer";
 import useRestaurantMenu from "../utils/useRestaurantMenu";
+import { MenuCard, MenuWithLabel } from "./MenuCard";
 
 const RestaurantMenu = () => {
   const [activeTab, setActiveTab] = useState("Order Online");
@@ -11,6 +12,9 @@ const RestaurantMenu = () => {
   const { resId } = useParams();
 
   const [resInfo, menuItems] = useRestaurantMenu(resId);
+
+  // Create the enhanced component (do this outside of render for better performance)
+  const MenuCardWithLabel = MenuWithLabel(MenuCard);
 
   // Toggle section collapse state
   const toggleSection = (sectionId) => {
@@ -23,81 +27,98 @@ const RestaurantMenu = () => {
   if (!resInfo) return <Shimmer />;
 
   return (
-    <div className="restaurant-menu-container">
-      {/* Restaurant Name */}
-      <div className="restaurant-title">
-        <h1>{resInfo?.name || "Restaurant"}</h1>
+    <div className="max-w-3xl mx-auto p-4 md:p-6 bg-white shadow-sm rounded-lg my-6">
+      {/* Restaurant Title */}
+      <div className="mb-4">
+        <h1 className="text-2xl font-bold text-gray-800">
+          {resInfo?.name || "Restaurant"}
+        </h1>
       </div>
 
       {/* Tabs */}
-      <div className="restaurant-tabs-container">
-        <div className="restaurant-tabs">
+      <div className="mb-6">
+        <div className="flex border-b border-gray-200">
           <button
-            className={`tab-button ${
-              activeTab === "Order Online" ? "active" : ""
+            className={`pb-3 px-1 mr-8 font-medium ${
+              activeTab === "Order Online"
+                ? "text-orange-500 border-b-2 border-orange-500"
+                : "text-gray-700"
             }`}
             onClick={() => setActiveTab("Order Online")}
           >
             Order Online
           </button>
+          <button
+            className={`pb-3 px-1 mr-8 font-medium ${
+              activeTab === "Dineout"
+                ? "text-orange-500 border-b-2 border-orange-500"
+                : "text-gray-700"
+            }`}
+            onClick={() => setActiveTab("Dineout")}
+          >
+            Dineout
+          </button>
         </div>
       </div>
 
       {/* Restaurant Info Box */}
-      <div className="restaurant-info-box">
+      <div className="bg-white rounded-lg p-4 mb-6 border border-gray-100">
         {/* Rating Section */}
-        <div className="rating-section">
-          <div className="rating-badge">★</div>
-          <div className="rating-value">
+        <div className="flex items-center mb-2">
+          <div className="w-5 h-5 bg-green-700 rounded-full flex items-center justify-center text-white text-xs mr-2">
+            ★
+          </div>
+          <div className="font-bold text-sm">
             {resInfo?.avgRating || "4.4"}
-            <span className="rating-count">
+            <span className="text-gray-500 font-normal text-xs ml-1">
               ({resInfo?.totalRatingsString || "12K+ ratings"})
             </span>
           </div>
         </div>
 
         {/* Cost and Category */}
-        <div className="cost-category">
-          <span className="cost-value">
+        <div className="flex items-center mb-3">
+          <span className="text-sm text-gray-700">
             {resInfo?.costForTwoMessage || "₹350 for two"}
           </span>
-          <span className="divider-dot"></span>
-          <span className="category">
+          <span className="w-1 h-1 bg-gray-500 rounded-full mx-2"></span>
+          <span className="text-sm text-red-400">
             {resInfo?.cuisines?.join(", ") || ""}
           </span>
         </div>
 
         {/* Location Info */}
-        <div className="outlet-info">
-          <div className="outlet-location">
-            <span className="outlet-dot"></span>
-            <span className="outlet-label">Outlet</span>
-            <span className="outlet-name">
+        <div className="flex items-center relative">
+          <div className="flex items-center bg-white z-10 pr-2">
+            <span className="w-2 h-2 bg-gray-500 rounded-full mr-2"></span>
+            <span className="text-gray-500 text-sm mr-1">Outlet</span>
+            <span className="text-blue-700 text-sm font-medium">
               {resInfo?.areaName || "Prahlad Nagar"}
             </span>
           </div>
-          <div className="delivery-time">
-            {resInfo?.sla?.slaString || "25-30 MINS"}
+          <div className="flex items-center bg-white z-10 pl-4">
+            <span className="w-2 h-2 bg-gray-500 rounded-full mr-2"></span>
+            <span className="text-gray-500 text-sm">
+              {resInfo?.sla?.slaString || "25-30 MINS"}
+            </span>
           </div>
+          <div className="absolute top-1/2 left-2 right-1/2 h-px bg-gray-200 -z-0"></div>
         </div>
       </div>
 
-      {/* Menu sections with toggle functionality */}
-      <div className="menu-section">
+      {/* Menu section */}
+      <div className="border-t border-gray-200 pt-4 mt-4">
         <div
-          className="menu-section-title"
+          className="flex justify-between items-center mb-4 cursor-pointer"
           onClick={() => toggleSection("recommended")}
         >
-          <h2>Recommended ({menuItems?.itemCards?.length || 0})</h2>
+          <h2 className="text-lg font-bold text-gray-800">
+            Recommended ({menuItems?.itemCards?.length || 0})
+          </h2>
           <span
-            className={`dropdown-icon ${
-              collapsedSections["recommended"] ? "collapsed" : ""
+            className={`w-6 h-6 rounded-full bg-gray-100 flex items-center justify-center text-xs transition-transform ${
+              collapsedSections["recommended"] ? "rotate-180" : ""
             }`}
-            aria-label={
-              collapsedSections["recommended"]
-                ? "Expand section"
-                : "Collapse section"
-            }
             role="button"
             tabIndex="0"
           >
@@ -105,65 +126,19 @@ const RestaurantMenu = () => {
           </span>
         </div>
 
-        {/* Menu items - conditionally rendered based on collapsed state */}
+        {/* Menu items - conditionally rendered */}
         {!collapsedSections["recommended"] && (
-          <div className="menu-items-list">
-            {menuItems?.itemCards?.map((card) => (
-              <div key={card.card.info.id} className="menu-item-card">
-                {/* Menu item content */}
-                <div className="menu-item-details">
-                  <div className="veg-indicator">
-                    {card.card.info.itemAttribute.vegClassifier === "VEG" ? (
-                      <div className="veg-badge"></div>
-                    ) : (
-                      <div className="non-veg-badge"></div>
-                    )}
-                  </div>
-
-                  {card.card.info.ribbon?.text && (
-                    <div className="bestseller-tag">
-                      <span>★</span> {card.card.info.ribbon.text}
-                    </div>
-                  )}
-
-                  <h3 className="menu-item-name">{card.card.info.name}</h3>
-                  <p className="menu-item-price">
-                    ₹
-                    {card.card.info.price / 100 ||
-                      card.card.info.defaultPrice / 100}
-                  </p>
-
-                  {card.card.info.ratings?.aggregatedRating?.rating && (
-                    <div className="menu-item-rating">
-                      <span>
-                        ★ {card.card.info.ratings.aggregatedRating.rating}
-                      </span>
-                      <span className="rating-count">
-                        ({card.card.info.ratings.aggregatedRating.ratingCount})
-                      </span>
-                    </div>
-                  )}
-
-                  <p className="menu-item-description">
-                    {card.card.info.description}
-                  </p>
-                </div>
-
-                <div className="menu-item-image-container">
-                  {card.card.info.imageId && (
-                    <img
-                      className="menu-item-image"
-                      src={`https://media-assets.swiggy.com/swiggy/image/upload/${card.card.info.imageId}`}
-                      alt={card.card.info.name}
-                    />
-                  )}
-                  <button className="add-btn">ADD</button>
-                  {card.card.info.isCustomizable && (
-                    <p className="customizable-text">Customizable</p>
-                  )}
-                </div>
-              </div>
-            ))}
+          <div className="space-y-6">
+            {menuItems?.itemCards?.map((card) =>
+              card.card.info.itemAttribute?.vegClassifier === "VEG" ? (
+                <MenuCardWithLabel
+                  key={card.card.info.id}
+                  item={card.card.info} // Now properly passing the item prop
+                />
+              ) : (
+                <MenuCard key={card.card.info.id} item={card.card.info} />
+              )
+            )}
           </div>
         )}
       </div>

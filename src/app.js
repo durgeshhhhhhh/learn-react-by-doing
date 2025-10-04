@@ -1,18 +1,18 @@
 import { lazy, Suspense } from "react";
 import ReactDOM from "react-dom/client";
+import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
 import Header from "./components/Header";
 import About from "./components/About";
 import Contact from "./components/Contact";
 import Erorr from "./components/Error";
 import Body from "./components/Body";
 import RestaurantMenu from "./components/RestaurantMenu";
-import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
 
 const Grocery = lazy(() => import("./components/Groceryy"));
 
 const AppLayout = () => {
   return (
-    <div className="app">
+    <div className="min-h-screen bg-gray-50">
       <Header />
       <Outlet />
     </div>
