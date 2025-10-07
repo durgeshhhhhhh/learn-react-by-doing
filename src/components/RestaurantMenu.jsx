@@ -2,27 +2,14 @@ import { useState } from "react";
 import { useParams } from "react-router-dom";
 import Shimmer from "./Shimmer";
 import useRestaurantMenu from "../utils/useRestaurantMenu";
-import { MenuCard, MenuWithLabel } from "./MenuCard";
+import RestaurantCategory from "./RestaurantCategory";
 
 const RestaurantMenu = () => {
-  const [activeTab, setActiveTab] = useState("Order Online");
-  const [collapsedSections, setCollapsedSections] = useState({
-    recommended: false, // Start with expanded section
-  });
   const { resId } = useParams();
 
-  const [resInfo, menuItems] = useRestaurantMenu(resId);
+  const [resInfo, menuCategory] = useRestaurantMenu(resId);
 
-  // Create the enhanced component (do this outside of render for better performance)
-  const MenuCardWithLabel = MenuWithLabel(MenuCard);
-
-  // Toggle section collapse state
-  const toggleSection = (sectionId) => {
-    setCollapsedSections((prev) => ({
-      ...prev,
-      [sectionId]: !prev[sectionId],
-    }));
-  };
+  // console.log("Category : ", menuCategory);
 
   if (!resInfo) return <Shimmer />;
 
@@ -35,29 +22,12 @@ const RestaurantMenu = () => {
         </h1>
       </div>
 
-      {/* Tabs */}
+      {/* Tabs - Now just showing Order Online tab without click functionality */}
       <div className="mb-6">
         <div className="flex border-b border-gray-200">
-          <button
-            className={`pb-3 px-1 mr-8 font-medium ${
-              activeTab === "Order Online"
-                ? "text-orange-500 border-b-2 border-orange-500"
-                : "text-gray-700"
-            }`}
-            onClick={() => setActiveTab("Order Online")}
-          >
+          <div className="pb-3 px-1 mr-8 font-medium text-orange-500 border-b-2 border-orange-500">
             Order Online
-          </button>
-          <button
-            className={`pb-3 px-1 mr-8 font-medium ${
-              activeTab === "Dineout"
-                ? "text-orange-500 border-b-2 border-orange-500"
-                : "text-gray-700"
-            }`}
-            onClick={() => setActiveTab("Dineout")}
-          >
-            Dineout
-          </button>
+          </div>
         </div>
       </div>
 
@@ -106,41 +76,13 @@ const RestaurantMenu = () => {
         </div>
       </div>
 
-      {/* Menu section */}
-      <div className="border-t border-gray-200 pt-4 mt-4">
-        <div
-          className="flex justify-between items-center mb-4 cursor-pointer"
-          onClick={() => toggleSection("recommended")}
-        >
-          <h2 className="text-lg font-bold text-gray-800">
-            Recommended ({menuItems?.itemCards?.length || 0})
-          </h2>
-          <span
-            className={`w-6 h-6 rounded-full bg-gray-100 flex items-center justify-center text-xs transition-transform ${
-              collapsedSections["recommended"] ? "rotate-180" : ""
-            }`}
-            role="button"
-            tabIndex="0"
-          >
-            ▼
-          </span>
-        </div>
-
-        {/* Menu items - conditionally rendered */}
-        {!collapsedSections["recommended"] && (
-          <div className="space-y-6">
-            {menuItems?.itemCards?.map((card) =>
-              card.card.info.itemAttribute?.vegClassifier === "VEG" ? (
-                <MenuCardWithLabel
-                  key={card.card.info.id}
-                  item={card.card.info} // Now properly passing the item prop
-                />
-              ) : (
-                <MenuCard key={card.card.info.id} item={card.card.info} />
-              )
-            )}
-          </div>
-        )}
+      <div className="space-y-6">
+        {menuCategory.map((category) => (
+          <RestaurantCategory
+            data={category?.card?.card}
+            key={category?.card?.card.categoryId}
+          />
+        ))}
       </div>
     </div>
   );

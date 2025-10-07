@@ -4,7 +4,7 @@ import axios from "axios";
 
 const useRestaurantMenu = (resId) => {
   const [resInfo, setResInfo] = useState(null);
-  const [menuItems, setMenuItems] = useState(null);
+  const [menuCategory, setMenuCategory] = useState(null);
 
   useEffect(() => {
     fetchMenu();
@@ -14,7 +14,7 @@ const useRestaurantMenu = (resId) => {
   const fetchMenu = async () => {
     try {
       const response = await axios.get(Menu_Api_URL + resId);
-      console.log("Menu Data: ", response);
+      // console.log("Menu Data: ", response);
 
       // Find restaurant info
       let info = null;
@@ -32,7 +32,7 @@ const useRestaurantMenu = (resId) => {
       }
 
       // Find menu items using a flexible approach
-      let menuItems = null;
+      let menuCategory = null;
 
       // First look for groupedCard structure which typically contains menu sections
       const groupedCardIndex = cards.findIndex(
@@ -44,47 +44,25 @@ const useRestaurantMenu = (resId) => {
           cards[groupedCardIndex]?.groupedCard?.cardGroupMap?.REGULAR?.cards ||
           [];
 
-        // First try to find a Recommended section
-        const recommendedCard = regularCards.find(
+        const categories = regularCards.filter(
           (card) =>
-            card?.card?.card?.title === "Recommended" ||
-            card?.card?.card?.title?.includes("Recommended")
+            card?.card?.card?.["@type"] ===
+            "type.googleapis.com/swiggy.presentation.food.v2.ItemCategory"
         );
-
-        if (recommendedCard?.card?.card?.itemCards) {
-          menuItems = recommendedCard.card.card;
-        } else {
-          // If no Recommended section, look for any card with itemCards
-          for (const card of regularCards) {
-            if (card?.card?.card?.itemCards?.length > 0) {
-              menuItems = card.card.card;
-              break;
-            }
-          }
-        }
+        menuCategory = categories;
       }
 
-      // If still no menu items, try one more approach - sometimes they're in a different structure
-      if (!menuItems) {
-        for (const card of cards) {
-          if (card?.card?.card?.itemCards?.length > 0) {
-            menuItems = card.card.card;
-            break;
-          }
-        }
-      }
-
-      if (menuItems) {
-        setMenuItems(menuItems);
+      if (menuCategory) {
+        setMenuCategory(menuCategory);
       } else {
-        console.log("Could not find menu items in the response");
+        console.log("Could not find menu category in the response");
       }
     } catch (error) {
       console.log("Error fetching menu data:", error);
     }
   };
 
-  return [resInfo, menuItems];
+  return [resInfo, menuCategory];
 };
 
 export default useRestaurantMenu;

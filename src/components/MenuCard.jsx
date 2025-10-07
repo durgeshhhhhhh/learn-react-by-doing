@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export const MenuCard = ({ item }) => {
+const MenuCard = ({ item }) => {
   const [showFullDescription, setShowFullDescription] = useState(false);
 
   return (
@@ -9,7 +9,7 @@ export const MenuCard = ({ item }) => {
       <div className="flex-1 pr-4 max-w-[calc(100%-120px)]">
         {/* Veg/Non-veg Indicator */}
         <div className="mb-1">
-          {item.itemAttribute?.vegClassifier === "VEG" ? (
+          {item?.itemAttribute?.vegClassifier === "VEG" ? (
             <div className="w-4 h-4 border border-[#0f8a65] flex items-center justify-center rounded-sm">
               <div className="w-2 h-2 bg-[#0f8a65] rounded-full"></div>
             </div>
@@ -21,7 +21,7 @@ export const MenuCard = ({ item }) => {
         </div>
 
         {/* Bestseller Tag */}
-        {item.ribbon?.text && (
+        {item?.ribbon?.text && (
           <div className="text-[#ee9c00] text-[10px] font-medium mb-1 flex items-center">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -131,23 +131,5 @@ export const MenuCard = ({ item }) => {
   );
 };
 
-// Fixed Higher Order Component
-export const MenuWithLabel = (WrappedComponent) => {
-  // Return a new functional component
-  return function EnhancedComponent(props) {
-    // Now properly passing all props to the wrapped component
-    return (
-      <div className="relative">
-        {/* The label/badge */}
-        <div className="absolute left-0 top-2 bg-[#144470] text-white text-xs px-2 py-0.5 rounded-r-md shadow-sm z-10">
-          Pure Veg
-        </div>
 
-        {/* The wrapped component with all props passed through */}
-        <WrappedComponent {...props} />
-      </div>
-    );
-  };
-};
-
-// export default MenuCard;
+export default MenuCard;
