@@ -9,7 +9,7 @@ const RestaurantMenu = () => {
 
   const [resInfo, menuCategory] = useRestaurantMenu(resId);
 
-  // console.log("Category : ", menuCategory);
+  console.log("Category : ", menuCategory);
 
   if (!resInfo) return <Shimmer />;
 
