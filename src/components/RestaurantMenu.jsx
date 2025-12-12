@@ -41,7 +41,7 @@ const RestaurantMenu = () => {
           <div className="font-bold text-sm">
             {resInfo?.avgRating || "4.4"}
             <span className="text-gray-500 font-normal text-xs ml-1">
-              ({resInfo?.totalRatingsString || "12K+ ratings"})
+              ({resInfo?.avgRatingString || "12K+ ratings"})
             </span>
           </div>
         </div>
@@ -80,7 +80,7 @@ const RestaurantMenu = () => {
         {menuCategory.map((category) => (
           <RestaurantCategory
             data={category?.card?.card}
-            key={category?.card?.card.categoryId}
+            key={category?.card?.card?.title}
           />
         ))}
       </div>

@@ -4,4 +4,4 @@ export const CDN_URL =
 export const LOGO_URL =
   "https://1000logos.net/wp-content/uploads/2021/05/Swiggy-emblem.png";
 
-export const Menu_Api_URL = "https://www.swiggy.com/dapi/menu/pl?page-type=REGULAR_MENU&complete-menu=true&lat=22.9781542&lng=72.4933552&restaurantId=";
+export const Menu_Api_URL = "https://namastedev.com/api/v1/listRestaurantMenu/";

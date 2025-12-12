@@ -1,4 +1,4 @@
-import RestaurantCard from "./RestaurantCard";
+import RestaurantCard, { withPromotedLabel } from "./RestaurantCard";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import Shimmer from "./Shimmer";
@@ -11,6 +11,8 @@ const Body = () => {
 
   // console.log("List of Restaurants: ", listOfRestaurants);
 
+  const RestaurantCardPromoted = withPromotedLabel(RestaurantCard);
+
   useEffect(() => {
     fetchData();
   }, []);
@@ -18,15 +20,18 @@ const Body = () => {
   const fetchData = async () => {
     try {
       const response = await axios.get(
-        "https://www.swiggy.com/dapi/restaurants/list/v5?lat=22.9781542&lng=72.4933552&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING"
+        "https://namastedev.com/api/v1/listRestaurants"
       );
       const json = response.data;
+      console.log(response);
 
       setListOfRestaurants(
-        json.data.cards[4]?.card?.card?.gridElements?.infoWithStyle?.restaurants
+        json.data?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle
+          ?.restaurants
       );
       setFilteredRestaurants(
-        json.data.cards[4]?.card?.card?.gridElements?.infoWithStyle?.restaurants
+        json.data?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle
+          ?.restaurants
       );
     } catch (error) {
       console.log("Error fetching data:", error);
@@ -70,7 +75,11 @@ const Body = () => {
               to={"/restaurant/" + restaurant.info.id}
               className="block transform transition-all duration-300 ease-out hover:-translate-y-2 hover:shadow-xl"
             >
-              <RestaurantCard resData={restaurant} />
+              {restaurant.info.veg == false ? (
+                <RestaurantCardPromoted resData={restaurant} />
+              ) : (
+                <RestaurantCard resData={restaurant} />
+              )}
             </Link>
           ))
         ) : (
