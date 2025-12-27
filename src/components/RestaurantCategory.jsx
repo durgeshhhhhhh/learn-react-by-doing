@@ -1,12 +1,12 @@
 import MenuCard from "./MenuCard";
 import { useState } from "react";
 
-const RestaurantCategory = ({ data }) => {
+const RestaurantCategory = ({ data, showItems, setShowIndex }) => {
   // console.log("itemCards : ", data?.itemCards[0]?.card?.info);
-  const [showItems, setShowItems] = useState(false);
+  // const [showItems, setShowItems] = useState(false);
 
   const handleClick = () => {
-    setShowItems(!showItems);
+    setShowIndex();
   };
 
   return (
