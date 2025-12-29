@@ -3,6 +3,7 @@ import { useState, useEffect, useContext } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import useOnlineStatus from "../utils/useOnlineStatus";
 import UserContext from "../utils/UserContext";
+import { useSelector } from "react-redux";
 
 const Header = () => {
   const [signInBtn, setsignInBtn] = useState("sign in");
@@ -10,7 +11,7 @@ const Header = () => {
   const navigate = useNavigate();
   const onlineStatus = useOnlineStatus();
 
-  const {loggedInUser} = useContext(UserContext);
+  const { loggedInUser } = useContext(UserContext);
   console.log(loggedInUser);
 
   useEffect(() => {}, [signInBtn]);
@@ -27,6 +28,10 @@ const Header = () => {
     }
     // Else, let the Link component handle the navigation
   };
+
+  // subscribing to the store using selector
+  const cartItem = useSelector((store) => store.cart.items);
+  console.log(cartItem);
 
   return (
     <div className="flex justify-between items-center px-4 py-2 shadow-sm bg-white sticky top-0 z-50">
@@ -74,6 +79,11 @@ const Header = () => {
               Grocery
             </Link>
           </li>
+          <li>
+            <Link to="/Cart" className="ml-4 font-bold text-xl">
+              Cart ({cartItem.length} items)
+            </Link>
+          </li>
           <button
             className="px-4 py-2 bg-orange-500 text-white rounded-md hover:bg-orange-600 transition-colors ml-2"
             onClick={() => {
@@ -84,7 +94,6 @@ const Header = () => {
           >
             {signInBtn}
           </button>
-          <li className="ml-4 font-medium">Cart</li>
           <li className="ml-4 font-bold">{loggedInUser}</li>
         </ul>
       </div>

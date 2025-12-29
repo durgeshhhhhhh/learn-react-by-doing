@@ -1,6 +1,12 @@
-import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { addItem } from "../utils/cartSlice";
 
 const MenuCard = ({ item }) => {
+  const dispatch = useDispatch();
+
+  const handleClick = (item) => {
+    dispatch(addItem(item));
+  };
   return (
     <div className="flex justify-between py-6 border-b border-[#f1f1f6] last:border-b-0">
       {/* Left Side Content */}
@@ -34,7 +40,10 @@ const MenuCard = ({ item }) => {
 
         {/* ADD Button */}
         <div className="absolute bottom-1 left-0 right-0 flex justify-center">
-          <button className="bg-white text-[#60b246] border border-[#d4d5d9] px-[18px] py-[6px] text-[12px] font-bold rounded-[4px] shadow-md hover:shadow-lg transition-shadow uppercase tracking-[0.4px]">
+          <button
+            className="bg-white text-[#60b246] border border-[#d4d5d9] px-[18px] py-[6px] text-[12px] font-bold rounded-[4px] shadow-md hover:shadow-lg transition-shadow uppercase tracking-[0.4px]"
+            onClick={() => handleClick(item)}
+          >
             ADD
           </button>
         </div>
