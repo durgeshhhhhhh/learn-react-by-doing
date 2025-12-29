@@ -8,9 +8,9 @@ const RestaurantMenu = () => {
   const { resId } = useParams();
 
   const [resInfo, menuCategory] = useRestaurantMenu(resId);
-  const[showIndex, setShowIndex] = useState(0);
+  const [showIndex, setShowIndex] = useState(0);
 
-  console.log("Category : ", menuCategory);
+  // console.log("Category : ", menuCategory);
 
   if (!resInfo) return <Shimmer />;
 
@@ -23,7 +23,6 @@ const RestaurantMenu = () => {
         </h1>
       </div>
 
-      {/* Tabs - Now just showing Order Online tab without click functionality */}
       <div className="mb-6">
         <div className="flex border-b border-gray-200">
           <div className="pb-3 px-1 mr-8 font-medium text-orange-500 border-b-2 border-orange-500">
@@ -83,7 +82,9 @@ const RestaurantMenu = () => {
             data={category?.card?.card}
             key={category?.card?.card?.title}
             showItems={index === showIndex ? true : false}
-            setShowIndex={() => setShowIndex(index === showIndex ? null : index)}
+            setShowIndex={() =>
+              setShowIndex(index === showIndex ? null : index)
+            }
           />
         ))}
       </div>

@@ -57,3 +57,9 @@ Two types of Export/Import
   (Normal JS utility Functions)
 - useState()
 - useEffect()
+
+
+# 2 types Routing in web apps 
+-client side routing 
+-server side rendering 
+

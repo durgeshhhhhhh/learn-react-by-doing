@@ -1,8 +1,9 @@
 import RestaurantCard, { withPromotedLabel } from "./RestaurantCard";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import Shimmer from "./Shimmer";
 import { Link } from "react-router-dom";
+import UserContext from "../utils/UserContext";
 
 const Body = () => {
   const [listOfRestaurants, setListOfRestaurants] = useState([]);
@@ -10,6 +11,8 @@ const Body = () => {
   const [searchText, setSearchText] = useState("");
 
   // console.log("List of Restaurants: ", listOfRestaurants);
+
+  const { setUserName, loggedInUser } = useContext(UserContext);
 
   const RestaurantCardPromoted = withPromotedLabel(RestaurantCard);
 
@@ -23,7 +26,7 @@ const Body = () => {
         "https://namastedev.com/api/v1/listRestaurants"
       );
       const json = response.data;
-      console.log(response);
+      // console.log(response);
 
       setListOfRestaurants(
         json.data?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle
@@ -64,6 +67,16 @@ const Body = () => {
         >
           Search
         </button>
+
+        <div>
+          <input
+            type="text"
+            className="px-4 py-2 border border-gray-300 rounded-md w-full md:w-64 focus:outline-none focus:ring-1 focus:ring-orange-500"
+            placeholder="Set User Name"
+            value={loggedInUser}
+            onChange={(e) => setUserName(e.target.value)}
+          />
+        </div>
       </div>
 
       {/* Restaurant Cards Grid */}

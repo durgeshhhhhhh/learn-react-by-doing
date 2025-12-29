@@ -1,4 +1,6 @@
+import { useContext } from "react";
 import { CDN_URL } from "../utils/constants";
+import UserContext from "../utils/UserContext";
 
 // RestaurantCard.jsx - Swiggy Style with Tailwind CSS
 const RestaurantCard = (props) => {
@@ -12,6 +14,8 @@ const RestaurantCard = (props) => {
     sla,
     aggregatedDiscountInfoV3,
   } = resData?.info;
+
+  const { loggedInUser } = useContext(UserContext);
 
   return (
     <div className="relative bg-white rounded-xl overflow-hidden shadow-sm group transition-all duration-300">
@@ -68,6 +72,7 @@ const RestaurantCard = (props) => {
 
         {/* Location */}
         <p className="text-gray-500 text-sm">{areaName}</p>
+        <p className="text-gray-500 text-sm font-bold">user: {loggedInUser}</p>
       </div>
 
       {/* Hover border effect */}

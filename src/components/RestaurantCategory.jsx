@@ -1,5 +1,4 @@
 import MenuCard from "./MenuCard";
-import { useState } from "react";
 
 const RestaurantCategory = ({ data, showItems, setShowIndex }) => {
   // console.log("itemCards : ", data?.itemCards[0]?.card?.info);

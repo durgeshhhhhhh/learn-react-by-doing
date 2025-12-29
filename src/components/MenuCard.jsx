@@ -1,8 +1,6 @@
 import { useState } from "react";
 
 const MenuCard = ({ item }) => {
-  const [showFullDescription, setShowFullDescription] = useState(false);
-
   return (
     <div className="flex justify-between py-6 border-b border-[#f1f1f6] last:border-b-0">
       {/* Left Side Content */}
