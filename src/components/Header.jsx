@@ -12,7 +12,6 @@ const Header = () => {
   const onlineStatus = useOnlineStatus();
 
   const { loggedInUser } = useContext(UserContext);
-  console.log(loggedInUser);
 
   useEffect(() => {}, [signInBtn]);
 

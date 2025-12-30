@@ -47,13 +47,6 @@ const MenuCard = ({ item }) => {
             ADD
           </button>
         </div>
-
-        {/* Customisable Text */}
-        {item.isCustomizable && (
-          <p className="text-[#7e808c] text-[10px] text-center mt-8">
-            Customisable
-          </p>
-        )}
       </div>
     </div>
   );
